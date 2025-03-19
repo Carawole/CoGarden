@@ -1,10 +1,24 @@
 @url =http://localhost:8080/api/user
 
+
+# Create a user
 POST {{url}}
 Content-Type: application/json
 
 {
     "email": "mj@neverland.com",
-    "password": "password",
+    "passwordHash": "password",
     "admin": false
+}
+
+###
+
+# Login Successfully
+
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "email": "mj@neverland.com",
+    "passwordHash": "password"
 }
