@@ -19,12 +19,14 @@ create table product (
     sunlight varchar(30) null,
     hardiness_zone int null,
     price decimal(10,2) not null
+    constraint uq_product_name_category_price
+        unique(product_name, category, price)
 );
 
 create table cart (
 	cart_id int primary key auto_increment,
     user_id int not null,
-    total decimal(10,2),
+    total decimal(10,2) null,
     created_at timestamp DEFAULT current_timestamp,
     constraint fk_cart_user_id
 		foreign key (user_id)
@@ -86,5 +88,11 @@ begin
         values
         ('test@email.com', 'testPasswordHash', false),
         ('test2@email.com', 'testPasswordHash2', true);
+        
+	insert into product (product_name, category, `description`, cycle, watering, sunlight, hardiness_zone, price)
+	    values
+        ('Test Product 1', 'FLOWERS', 'Test Description 1', 'Test Cycle 1', 'Test Watering 1', 'Test Sunlight 1', 1, 1.00),
+        ('Test Product 2', 'TREES', 'Test Description 2', 'Test Cycle 2', 'Test Watering 2', 'Test Sunlight 2', 2, 2.00),
+        ('Test Product 3', 'FLOWERS', 'Test Description 3', 'Test Cycle 3', 'Test Watering 3', 'Test Sunlight 3', 3, 3.00);
 end//
 delimiter ;

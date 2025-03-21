@@ -18,13 +18,15 @@ create table product (
     watering varchar(30) null,
     sunlight varchar(30) null,
     hardiness_zone int null,
-    price decimal(10,2) not null
+    price decimal(10,2) not null,
+    constraint uq_product_name_category_price
+        unique(product_name, category, price)
 );
 
 create table cart (
 	cart_id int primary key auto_increment,
     user_id int not null,
-    total decimal(10,2),
+    total decimal(10,2) null,
     created_at timestamp DEFAULT current_timestamp,
     constraint fk_cart_user_id
 		foreign key (user_id)
