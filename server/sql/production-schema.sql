@@ -25,9 +25,9 @@ create table product (
 
 create table cart (
 	cart_id int primary key auto_increment,
-    user_id int not null,
-    total decimal(10,2) null,
-    created_at timestamp DEFAULT current_timestamp,
+    user_id int not null unique,
+    total decimal(10,2) DEFAULT 0.00 not null,
+    created_at timestamp DEFAULT current_timestamp not null,
     constraint fk_cart_user_id
 		foreign key (user_id)
         references `user`(user_id)
@@ -40,18 +40,21 @@ create table cart_item (
     quantity int not null,
     constraint fk_cart_item_cart_id
 		foreign key (cart_id)
-        references cart(cart_id),
+        references cart(cart_id)
+        on delete cascade,
     constraint fk_cart_item_product_id
 		foreign key (product_id)
-        references product(product_id)
+        references product(product_id),
+    constraint uq_cart_id_product_id
+		unique(cart_id, product_id)
 );
 
 create table `order` (
 	order_id int primary key auto_increment,
     user_id int not null,
-    order_status varchar(50) not null,
-    total decimal(10,2),
-    created_at timestamp DEFAULT current_timestamp,
+    order_status varchar(50) DEFAULT 'PENDING' not null,
+    total decimal(10,2) DEFAULT 0.00 not null,
+    created_at timestamp DEFAULT current_timestamp not null,
     constraint fk_order_user_id
 		foreign key (user_id)
         references `user`(user_id)

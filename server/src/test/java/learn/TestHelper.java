@@ -1,10 +1,9 @@
 package learn;
 
-import learn.models.Category;
-import learn.models.Product;
-import learn.models.User;
+import learn.models.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class TestHelper {
 
@@ -16,5 +15,13 @@ public class TestHelper {
 
     public static Product makeProduct() {
         return new Product(1, "Test Product 1", Category.FLOWERS, "Test Description 1", "Test Cycle 1", "Test Watering 1", "Test Sunlight 1", 1, new BigDecimal("1.00"));
+    }
+
+    public static Cart makeCart() {
+        return new Cart(1, 1, new BigDecimal("0.00"), LocalDateTime.now());
+    }
+
+    public static CartItem makeCartItem() {
+        return new CartItem(1, 1, makeProduct(), 1);
     }
 }

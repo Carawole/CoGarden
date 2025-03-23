@@ -7,43 +7,17 @@ public class CartItem {
 
     private int cartItemId;
     private int cartId;
-    private int productId;
-    private BigDecimal productPrice;
+    private Product product;
     private int quantity;
 
     public CartItem() {
     }
 
-    public CartItem(int cartId, int cartItemId, int productId, BigDecimal productPrice, int quantity) {
-        this.cartId = cartId;
+    public CartItem(int cartItemId, int cartId, Product product, int quantity) {
         this.cartItemId = cartItemId;
-        this.productId = productId;
-        this.productPrice = productPrice;
+        this.cartId = cartId;
+        this.product = product;
         this.quantity = quantity;
-    }
-
-    public int getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(int cartId) {
-        this.cartId = cartId;
-    }
-
-    public int getCartItemId() {
-        return cartItemId;
-    }
-
-    public void setCartItemId(int cartItemId) {
-        this.cartItemId = cartItemId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -54,23 +28,39 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal getProductPrice() {
-        return productPrice;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
-        this.productPrice = productPrice;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(int cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+    public int getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
-        return cartItemId == cartItem.cartItemId && cartId == cartItem.cartId && productId == cartItem.productId && quantity == cartItem.quantity;
+        return cartItemId == cartItem.cartItemId && cartId == cartItem.cartId && quantity == cartItem.quantity && Objects.equals(product, cartItem.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartItemId, cartId, productId, quantity);
+        return Objects.hash(cartItemId, cartId, product, quantity);
     }
 }
