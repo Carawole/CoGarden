@@ -1,5 +1,6 @@
 package learn.data;
 
+import learn.data.mappers.ProductMapper;
 import learn.models.Product;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
