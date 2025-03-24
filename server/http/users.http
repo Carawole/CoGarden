@@ -22,3 +22,13 @@ Content-Type: application/json
     "email": "mj@neverland.com",
     "passwordHash": "password"
 }
+
+###
+
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "email": "test@email.com",
+    "passwordHash": "password"
+}
