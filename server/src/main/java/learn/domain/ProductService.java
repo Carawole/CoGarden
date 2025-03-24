@@ -22,7 +22,7 @@ public class ProductService {
         return result;
     }
 
-    public Result<List<Product>> findByCategory( String category) {
+    public Result<List<Product>> findByCategory(String category) {
         Result<List<Product>> result = new Result<>();
 
         if (category == null || category.isBlank()) {

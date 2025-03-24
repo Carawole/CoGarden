@@ -1,4 +1,4 @@
-package learn.data;
+package learn.data.mappers;
 
 import learn.models.Category;
 import learn.models.Product;
@@ -15,7 +15,7 @@ public class ProductMapper implements RowMapper<Product> {
         product.setProductId(rs.getInt("product_id"));
         product.setProductName(rs.getString("product_name"));
         product.setPrice(rs.getBigDecimal("price"));
-        product.setCategory(Category.valueOf(rs.getString("category")));
+        product.setCategory(Category.fromString(rs.getString("category")));
         product.setDescription(rs.getString("description"));
         product.setCycle(rs.getString("cycle"));
         product.setWatering(rs.getString("watering"));

@@ -32,13 +32,13 @@ public class ProductController {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(params = "category")
     public ResponseEntity<Object> findByCategory(@RequestParam String category) {
         return new ResponseEntity<>(service.findByCategory(category), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<Object> findByName(@RequestParam String productName, String category) {
+    @GetMapping(params = {"productName", "category"})
+    public ResponseEntity<Object> findByName(@RequestParam String productName, @RequestParam String category) {
         return new ResponseEntity<>(service.findByName(productName, category), HttpStatus.OK);
     }
 
