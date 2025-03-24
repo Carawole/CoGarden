@@ -19,9 +19,9 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private UserService service;
+    private final UserService service;
 
-    private SecretSigningKey secretSigningKey;
+    private final SecretSigningKey secretSigningKey;
 
     public UserController(UserService service, SecretSigningKey secretSigningKey) {
         this.service = service;
@@ -62,6 +62,7 @@ public class UserController {
         String jwt = Jwts.builder()
                 .claim("email", user.getEmail())
                 .claim("userId", user.getUserId())
+                .claim("isAdmin", user.isAdmin())
                 .signWith(secretSigningKey.getKey())
                 .compact();
         Map<String, String> output = new HashMap<>();

@@ -9,6 +9,7 @@ public class Cart {
 
     private int cartId;
     private int userId;
+    private List<CartItem> cartItems;
     private BigDecimal total;
     private LocalDateTime createdAt;
 
@@ -20,6 +21,22 @@ public class Cart {
         this.userId = userId;
         this.total = total;
         this.createdAt = createdAt;
+    }
+
+    public Cart(int cartId, List<CartItem> cartItems, LocalDateTime createdAt, BigDecimal total, int userId) {
+        this.cartId = cartId;
+        this.cartItems = cartItems;
+        this.createdAt = createdAt;
+        this.total = total;
+        this.userId = userId;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     public int getCartId() {
@@ -67,11 +84,11 @@ public class Cart {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return cartId == cart.cartId && userId == cart.userId && Objects.equals(total, cart.total) && Objects.equals(createdAt, cart.createdAt);
+        return cartId == cart.cartId && userId == cart.userId && Objects.equals(createdAt, cart.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, userId, total, createdAt);
+        return Objects.hash(cartId, userId, createdAt);
     }
 }

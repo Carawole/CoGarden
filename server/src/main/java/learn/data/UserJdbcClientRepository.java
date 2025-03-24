@@ -1,5 +1,6 @@
 package learn.data;
 
+import learn.data.mappers.UserMapper;
 import learn.models.User;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

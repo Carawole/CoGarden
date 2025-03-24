@@ -1,6 +1,5 @@
 package learn.data.mappers;
 
-import learn.data.ProductMapper;
 import learn.models.CartItem;
 import learn.models.Product;
 import org.springframework.jdbc.core.RowMapper;
