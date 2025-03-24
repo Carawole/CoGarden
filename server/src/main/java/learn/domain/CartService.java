@@ -20,12 +20,60 @@ public class CartService {
         this.cartItemRepository = cartItemRepository;
     }
 
-    public Result<Cart> RetrieveCartByUserId(int userId) {
+    public Result<List<Cart>> findAll() {
+        Result<List<Cart>> result = new Result<>();
+        result.setPayload(cartRepository.findAll());
+        return result;
+    }
+
+    public Result<Cart> retrieveCartByUserId(int userId) {
         Result<Cart> result = new Result<>();
         Cart cart = cartRepository.retrieveByUserId(userId);
         List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getCartId());
-
         cart.setCartItems(cartItems);
+        result.setPayload(cart);
         return result;
+    }
+
+    public Result<Cart> addToCart(CartItem cartItem) {
+        Result<Cart> result = new Result<>();
+        cartItemRepository.add(cartItem);
+        Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
+        Cart cart = updateTotal(preCart);
+        result.setPayload(cart);
+        return result;
+    }
+
+    public Result<Cart> updateCartItemQuantity(CartItem cartItem) {
+        Result<Cart> result = new Result<>();
+
+        if (cartItem.getQuantity() <= 0) {
+            cartItemRepository.remove(cartItem.getCartItemId());
+        } else {
+            cartItemRepository.updateQuantity(cartItem);
+        }
+        Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
+        Cart cart = updateTotal(preCart);
+        result.setPayload(cart);
+        return result;
+    }
+
+    public Result<Cart> removeFromCart(CartItem cartItem) {
+        Result<Cart> result = new Result<>();
+        cartItemRepository.remove(cartItem.getCartItemId());
+        Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
+        Cart cart = updateTotal(preCart);
+        result.setPayload(cart);
+        return result;
+    }
+
+    public boolean submitOrder(Cart cart) {
+        return cartRepository.submitOrder(cart);
+    }
+
+    private Cart updateTotal(Cart cart) {
+        cart.calculateTotal(cart.getCartItems());
+        cartRepository.updateTotal(cart);
+        return cart;
     }
 }

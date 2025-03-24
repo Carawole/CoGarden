@@ -72,7 +72,7 @@ public class Cart {
     }
 
     public void calculateTotal(List<CartItem> cartItems) {
-        BigDecimal calculatedTotal = new BigDecimal("0");
+        BigDecimal calculatedTotal = new BigDecimal("0.00");
         for (CartItem cartItem : cartItems) {
             BigDecimal productTotal = cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
             calculatedTotal = calculatedTotal.add(productTotal);

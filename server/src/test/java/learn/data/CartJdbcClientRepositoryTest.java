@@ -73,6 +73,6 @@ class CartJdbcClientRepositoryTest {
         assertEquals(new BigDecimal("25.00"), updatedCart.getTotal());
     }
 
-    // TODO: Add test for delete after adding order repository
+    // TODO: Add test for submitOrder after adding order repository
 
 }

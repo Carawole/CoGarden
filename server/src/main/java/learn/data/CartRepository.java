@@ -10,8 +10,10 @@ public interface CartRepository {
 
     public Cart retrieveByUserId(int userId);
 
+    public Cart findByCartId(int cartId);
+
     public boolean updateTotal(Cart cart);
 
-    public boolean delete(Cart cart);
+    public boolean submitOrder(Cart cart);
 
 }

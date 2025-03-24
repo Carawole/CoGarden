@@ -21,7 +21,7 @@ public class CartJdbcClientRepository implements CartRepository {
 
     @Override
     @Transactional
-    public boolean delete(Cart cart) {
+    public boolean submitOrder(Cart cart) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -53,6 +53,18 @@ public class CartJdbcClientRepository implements CartRepository {
                 """;
 
         return client.sql(sql).query(new CartMapper()).list();
+    }
+
+    @Override
+    public Cart findByCartId(int cartId) {
+
+        final String sql = """
+                SELECT cart_id, user_id, total, created_at
+                FROM cart
+                WHERE cart_id = :cartId
+                """;
+
+        return client.sql(sql).param("cartId", cartId).query(new CartMapper()).optional().orElse(null);
     }
 
     @Override
