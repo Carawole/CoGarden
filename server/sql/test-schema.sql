@@ -20,7 +20,7 @@ create table product (
     hardiness_zone int null,
     price decimal(10,2) not null,
     constraint uq_product_name_category_price
-        unique(product_name, category, price)
+        unique (product_name, category, price)
 );
 
 create table cart (
@@ -30,7 +30,9 @@ create table cart (
     created_at timestamp DEFAULT current_timestamp not null,
     constraint fk_cart_user_id
 		foreign key (user_id)
-        references `user`(user_id)
+        references `user`(user_id),
+    constraint uq_user_id
+		unique (user_id)        
 );
 
 create table cart_item (
@@ -46,7 +48,7 @@ create table cart_item (
 		foreign key (product_id)
         references product(product_id),
     constraint uq_cart_id_product_id
-		unique(cart_id, product_id)
+		unique (cart_id, product_id)
 );
 
 create table `order` (
