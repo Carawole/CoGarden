@@ -77,7 +77,8 @@ create table order_item (
 
  insert into `user` (email, password_hash, is_admin)
      values
-     ('tt@kellogg.com', '$2a$12$0E8Ln6D7dkSw9HTrDNujZ.cDWbLJUIuE2X24oGZ1y3dtUnw755B8q', true);
+     ('tt@kellogg.com', '$2a$12$0E8Ln6D7dkSw9HTrDNujZ.cDWbLJUIuE2X24oGZ1y3dtUnw755B8q', true),
+     ('mj@neverland.com', '$2a$12$.zFBDfuROCrYI6WOb6NgpeHzihO8DCYbh0XJARgf.DTTyOUE2..WS', false);
 
 insert into product (product_name, category, `description`, cycle, watering, sunlight, hardiness_zone, price)
     values

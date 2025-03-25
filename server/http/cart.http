@@ -1,0 +1,197 @@
+@url=http://localhost:8080/api/cart
+###
+@adminjwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InR0QGtlbGxvZ2cuY29tIiwidXNlcklkIjoxLCJpc0FkbWluIjp0cnVlfQ.fqEx5MFPtiah6Go5k0rv813b4QcJG8TkxUCTDI-BOUY
+
+###
+
+@normaljwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1qQG5ldmVybGFuZC5jb20iLCJ1c2VySWQiOjIsImlzQWRtaW4iOmZhbHNlfQ.Zb_F0KmYVnlE_bmxDKVBSoyDFxqFcPqacpeZvc_Dbng
+
+###
+
+# Get all carts as admin
+GET {{url}}/allCarts
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+###
+
+#Get all carts for normal user - not allowed
+
+GET {{url}}/allCarts
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+###
+
+# Get cart for admin user
+GET {{url}}
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+###
+
+# Get cart for normal user
+
+GET {{url}}
+Content-Type: application/json
+Authorization: {{normaljwt}}
+###
+
+POST {{url}}/add
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartId": 1,
+    "product": {
+      "productId": 4,
+      "productName": "Haworthia",
+      "category": "SUCCULENTS",
+      "description": "Haworthia is a succulent plant that is native to South Africa. It is a popular houseplant and is often used in gardens.",
+      "cycle": "Perennial",
+      "watering": "Low",
+      "sunlight": "Full Sun",
+      "hardinessZone": 9,
+      "price": 6.99
+    },
+    "quantity": 2
+}
+
+###
+
+# Add item to cart - normal user
+
+POST {{url}}/add
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartId": 1,
+    "product": {
+        "productId": 11,
+        "productName": "Rose",
+        "category": "FLOWERS",
+        "description": "A beautiful rose",
+        "cycle": null,
+        "watering": null,
+        "sunlight": null,
+        "hardinessZone": 0,
+        "price": 10.00
+    },
+    "quantity": 3
+}
+
+###
+
+# Add second item to cart - normal user
+
+POST {{url}}/add
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartId": 1,
+    "product": {
+      "productId": 1,
+      "productName": "Aloe Vera",
+      "category": "SUCCULENTS",
+      "description": "Aloe Vera is a succulent plant that is native to the Arabian Peninsula. It is a popular houseplant and is often used in gardens.",
+      "cycle": "Perennial",
+      "watering": "Low",
+      "sunlight": "Full Sun",
+      "hardinessZone": 9,
+      "price": 5.99
+    },
+    "quantity": 2
+}
+
+###
+
+# Update quantity of item in cart - normal user
+
+PUT {{url}}
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartItemId": 2,
+    "cartId": 1,
+    "product": {
+        "productId": 11,
+        "productName": "Rose",
+        "category": "FLOWERS",
+        "description": "A beautiful rose",
+        "cycle": null,
+        "watering": null,
+        "sunlight": null,
+        "hardinessZone": 0,
+        "price": 10.00
+    },
+    "quantity": 10
+}
+
+###
+
+# Update quantity of item in cart to less than or equal to 0 - normal user
+
+PUT {{url}}
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartItemId": 3,
+    "cartId": 1,
+    "product": {
+        "productId": 11,
+        "productName": "Rose",
+        "category": "FLOWERS",
+        "description": "A beautiful rose",
+        "cycle": null,
+        "watering": null,
+        "sunlight": null,
+        "hardinessZone": 0,
+        "price": 10.00
+    },
+    "quantity": -57
+}
+
+###
+
+# Delete item from cart - normal user
+
+DELETE  {{url}}
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartItemId": 1,
+    "cartId": 1,
+    "product": {
+      "productId": 1,
+      "productName": "Aloe Vera",
+      "category": "SUCCULENTS",
+      "description": "Aloe Vera is a succulent plant that is native to the Arabian Peninsula. It is a popular houseplant and is often used in gardens.",
+      "cycle": "Perennial",
+      "watering": "Low",
+      "sunlight": "Full Sun",
+      "hardinessZone": 9,
+      "price": 5.99
+    },
+    "quantity": 2
+}
+
+###
+
+# Need to implement clear cart functionality
+
+###
+
+# Submit order - normal user
+POST {{url}}/submit
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+{
+    "cartId": 1,
+    "userId": 2
+}

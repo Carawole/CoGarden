@@ -6,7 +6,7 @@ While USER is logged in:
     - User can add an item to their cart
     - User can view the items currently in their cart
     - User can clear their cart
-    - If not available for purchase, User can search for & request an item be added to the store
+    - If not available for purchase, User can request an item be added to the store
     - User can view their past orders
 While ADMIN is logged in:
     - Admin can view requested items

@@ -6,6 +6,7 @@ import learn.models.CartItem;
 import org.springframework.stereotype.Service;
 import learn.models.Cart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,14 +23,19 @@ public class CartService {
 
     public Result<List<Cart>> findAll() {
         Result<List<Cart>> result = new Result<>();
-        result.setPayload(cartRepository.findAll());
+        List<Cart> carts = cartRepository.findAll();
+        for (Cart cart : carts) {
+            List<CartItem> cartItems = getCartItems(cart.getCartId());
+            cart.setCartItems(cartItems);
+        }
+        result.setPayload(carts);
         return result;
     }
 
     public Result<Cart> retrieveCartByUserId(int userId) {
         Result<Cart> result = new Result<>();
         Cart cart = cartRepository.retrieveByUserId(userId);
-        List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getCartId());
+        List<CartItem> cartItems = getCartItems(cart.getCartId());
         cart.setCartItems(cartItems);
         result.setPayload(cart);
         return result;
@@ -39,6 +45,8 @@ public class CartService {
         Result<Cart> result = new Result<>();
         cartItemRepository.add(cartItem);
         Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
+        List<CartItem> cartItems = getCartItems(cartItem.getCartId());
+        preCart.setCartItems(cartItems);
         Cart cart = updateTotal(preCart);
         result.setPayload(cart);
         return result;
@@ -53,6 +61,8 @@ public class CartService {
             cartItemRepository.updateQuantity(cartItem);
         }
         Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
+        List<CartItem> cartItems = getCartItems(cartItem.getCartId());
+        preCart.setCartItems(cartItems);
         Cart cart = updateTotal(preCart);
         result.setPayload(cart);
         return result;
@@ -62,6 +72,8 @@ public class CartService {
         Result<Cart> result = new Result<>();
         cartItemRepository.remove(cartItem.getCartItemId());
         Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
+        List<CartItem> cartItems = getCartItems(cartItem.getCartId());
+        preCart.setCartItems(cartItems);
         Cart cart = updateTotal(preCart);
         result.setPayload(cart);
         return result;
@@ -75,5 +87,11 @@ public class CartService {
         cart.calculateTotal(cart.getCartItems());
         cartRepository.updateTotal(cart);
         return cart;
+    }
+
+    private List<CartItem> getCartItems(int cartId) {
+        List<CartItem> cartItems = new ArrayList<>();
+        cartItems = cartItemRepository.findByCartId(cartId);
+        return cartItems;
     }
 }

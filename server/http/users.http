@@ -13,6 +13,18 @@ Content-Type: application/json
 
 ###
 
+# Create an admin user
+POST {{url}}
+Content-Type: application/json
+
+{
+    "email": "tt@kellogg.com",
+    "passwordHash": "HiddenPassword",
+    "admin": true
+}
+
+###
+
 # Login Successfully
 
 POST {{url}}/login
@@ -21,6 +33,16 @@ Content-Type: application/json
 {
     "email": "mj@neverland.com",
     "passwordHash": "password"
+}
+
+###
+
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "email": "tt@kellogg.com",
+    "passwordHash": "HiddenPassword"
 }
 
 ###
