@@ -63,9 +63,9 @@ function App() {
       <div className='container'>
           <Routes>
               <Route path="/" element={ <LandingPage categories={categories}/> }/>
-              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} cart={cart} setCart={setCart} cartVersion={cartVersion} setCartVersion={setCartVersion}/>} />
+              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} cart={cart} setCartVersion={setCartVersion}/>} />
               <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/cart" element={<CartPage cart={cart} loggedInUser={loggedInUser}/>} />
+              <Route path="/cart" element={<CartPage cart={cart} loggedInUser={loggedInUser} setCartVersion={setCartVersion} />} />
               <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} />} />
           </Routes>
       </div>

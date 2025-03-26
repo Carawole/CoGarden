@@ -4,7 +4,7 @@ export async function retrieveCart( loggedInUser ) {
         console.warn("No JWT found, skipping cart fetch.");
         return;  // Skip API call if no jwt
     }
-    
+
     try {
         const response = await fetch("http://localhost:8080/api/cart", {
             method: "GET",
@@ -63,33 +63,36 @@ export async function addToCart( loggedInUser, cart, product ) {
         console.error('Error:', error.message);
         return [];
     }
+}
 
+export async function removeFromCart( cart ) {
 
+}
 
-
-    // fetch(`http://localhost:8080/api/cart/add`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': loggedInUser.jwt
-    //     },
-    //     body: JSON.stringify(
-    //         {
-    //             cartId: cart.cartId,
-    //             product: product,
-    //             quantity: 1
-    //         }
-    //     )
-    // })
-    // .then((response) => response.json())
-    // .then((data) => {
-    //     console.log("Cart Data:", data);  // Debug log
-    //     return data.payload;
-    // })
-    // .catch((error) => {
-    //     console.error('Error:', error);
-    //     return [];
-    // });
+export async function submitOrder( cart, loggedInUser ) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/cart/submit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': loggedInUser.jwt
+            },
+            body: JSON.stringify(
+                {
+                    cartId: cart.cartId,
+                    userId: cart.userId
+                }
+            )
+        });
+    
+        if (!response.ok) {
+            throw new Error(`Failed to submit order: ${response.status} ${response.statusText}`);
+        }
+    
+    } catch (error) {
+        console.error('Error:', error.message);
+    }    
+    
 }
 
 export default retrieveCart;

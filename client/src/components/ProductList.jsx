@@ -5,13 +5,12 @@ import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstr
 import { addToCart } from './CartContext';  // Import the cart context
 import '../styles/ProductList.css';
 
-const ProductList = ({ categories, loggedInUser, cart, setCart, cartVersion, setCartVersion }) => {
+const ProductList = ({ categories, loggedInUser, cart, setCartVersion }) => {
     const { title } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    // const { addToCart } = useCart();
 
     const fetchProducts = () => {
         fetch(`http://localhost:8080/api/product?category=${title}`)

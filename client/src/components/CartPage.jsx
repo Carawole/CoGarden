@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstrap';
+import { submitOrder, removeFromCart } from './CartContext';
 
-export default function CartPage({ cart, loggedInUser }) {
+export default function CartPage({ cart, loggedInUser, setCartVersion }) {
 
     const [isLoading, setLoading] = useState(false);
 
@@ -19,10 +20,15 @@ export default function CartPage({ cart, loggedInUser }) {
       }
     }, [isLoading]);
   
-    const handleClick = () => {
-        
+    const handleSubmit = () => {
+        submitOrder(cart, loggedInUser);
+        setCartVersion((prev) => prev + 1);
         setLoading(true);
-    
+    }
+
+    const handleRemoveClick = () => {
+
+
     }
 
     if (!cart || cart.cartItems.length === 0) return <div>No items in the cart.</div>;
@@ -32,7 +38,7 @@ export default function CartPage({ cart, loggedInUser }) {
             <h1>Cart</h1>
             <Row>
                 {cart.cartItems.map((item) => (
-                    <Col key={item.id} md={4} className="mb-4">
+                    <Col key={item.cartItemId} md={4} className="mb-4">
                         <Card>
                             <Card.Img variant="top" src={item.image} />
                             <Card.Body>
@@ -43,6 +49,9 @@ export default function CartPage({ cart, loggedInUser }) {
                                 <Card.Text>
                                     Quantity: {item.quantity}
                                 </Card.Text>
+                                <Button variant='danger' onClick={handleRemoveClick}>
+                                    Remove
+                                </Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -52,7 +61,7 @@ export default function CartPage({ cart, loggedInUser }) {
             <Button
                 variant="primary"
                 disabled={isLoading}
-                onClick={!isLoading ? handleClick : null}
+                onClick={!isLoading ? handleSubmit : null}
                 >
                 {isLoading ? 'Loading…' : 'Submit Order'}
             </Button>
