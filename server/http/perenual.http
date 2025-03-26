@@ -1,0 +1,15 @@
+@url =http://localhost:8080/api/perenual
+
+@adminjwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InR0QGtlbGxvZ2cuY29tIiwidXNlcklkIjoxLCJpc0FkbWluIjp0cnVlfQ.zMR7AUYm7cUsVkKP5SVirG2R_q4QqRcEOPbva_LYvEQ
+
+###
+
+GET {{url}}/search?query=onion
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+###
+
+GET {{url}}/details?id=663
+Content-Type: application/json
+Authorization: {{adminjwt}}
