@@ -5,8 +5,8 @@ import "../styles/LandingPage.css";
 const LandingPage = ({ categories }) => {
     const navigate = useNavigate();
 
-    const handleCategoryClick = (categoryId) => {
-        navigate(`/category/${categoryId}`);  // Navigate to product list for selected category
+    const handleCategoryClick = (categoryTitle) => {
+        navigate(`/category/${categoryTitle}`);  // Navigate to product list for selected category
     };
 
     return (
@@ -25,7 +25,7 @@ const LandingPage = ({ categories }) => {
                             <p>Explore the latest in {category.name}!</p>
                             <Button 
                                 variant="primary" 
-                                onClick={() => handleCategoryClick(category.id)}
+                                onClick={() => handleCategoryClick(category.title)}
                             >
                                 Shop Now
                             </Button>

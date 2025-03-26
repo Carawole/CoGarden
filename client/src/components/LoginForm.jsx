@@ -8,7 +8,8 @@ const LoginForm = ({ setLoggedInUser }) => {
 
     const [user, setUser] = useState({
         email: "",
-        passwordHash: ""
+        passwordHash: "",
+        isAdmin: false
     })
 
     const [errors, setErrors] = useState([])

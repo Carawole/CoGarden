@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import NavBar from './components/NavBar';
 import LoginForm from './components/LoginForm';
 import LandingPage from './components/LandingPage';
-import CategoryPage from './components/CategoryPage';
+import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import CartPage from './components/CartPage';
 
@@ -39,7 +39,7 @@ function App() {
       <div className='container'>
           <Routes>
               <Route path="/" element={ <LandingPage categories={categories}/> }/>
-              <Route path="/category/:id" element={<CategoryPage />} />
+              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} />} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} />} />
