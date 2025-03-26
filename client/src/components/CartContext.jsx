@@ -65,7 +65,38 @@ export async function addToCart( loggedInUser, cart, product ) {
     }
 }
 
-export async function removeFromCart( cart ) {
+export async function removeFromCart( item, loggedInUser ) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/cart`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': loggedInUser.jwt
+            },
+            body: JSON.stringify(
+                {
+                    cartItemId: item.cartItemId,
+                    cartId: item.cartId,
+                    product: item.product,
+                    quantity: item.quantity
+                }
+            )
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to remove product from cart: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        console.log("Cart Data:", data);  // Debug log
+
+        return data.payload;
+        
+    } catch (error) {
+        console.error('Error:', error.message);
+        return [];
+    }
 
 }
 

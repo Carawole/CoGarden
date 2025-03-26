@@ -26,10 +26,11 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
         setLoading(true);
     }
 
-    const handleRemoveClick = () => {
-
-
-    }
+    // const handleRemoveClick = (item) => {
+    //     removeFromCart(item, loggedInUser);
+    //     setCartVersion((prev) => prev + 1);
+    //     setLoading(true);
+    // }
 
     if (isLoading) {
             return (
@@ -57,7 +58,12 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
                                 <Card.Text>
                                     Quantity: {item.quantity}
                                 </Card.Text>
-                                <Button variant='danger' onClick={handleRemoveClick}>
+                                <Button variant='danger' onClick={() => {
+                                    console.log(item);
+                                    removeFromCart(item, loggedInUser);
+                                    setCartVersion((prev) => prev + 1);
+                                    setLoading(true);
+                                    }}>
                                     Remove
                                 </Button>
                             </Card.Body>
