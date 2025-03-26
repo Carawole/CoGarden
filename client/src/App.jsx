@@ -7,6 +7,8 @@ import LandingPage from './components/LandingPage';
 import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import CartPage from './components/CartPage';
+import AddProductForm from './components/AddProductForm';
+import SearchResults from './components/SearchResults';
 import { retrieveCart } from './components/CartContext';
 import { Spinner } from 'react-bootstrap';
 
@@ -65,8 +67,10 @@ function App() {
               <Route path="/" element={ <LandingPage categories={categories}/> }/>
               <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} cart={cart} setCartVersion={setCartVersion}/>} />
               <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/search-results" element={<SearchResults loggedInUser={loggedInUser} /> }/>
               <Route path="/cart" element={<CartPage cart={cart} loggedInUser={loggedInUser} setCartVersion={setCartVersion} />} />
-              <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} />} />
+              <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} cart={cart} setCartVersion={setCartVersion}/>} />
+              <Route path="/add-product" element={<AddProductForm loggedInUser={loggedInUser} categories={categories}/>} />
           </Routes>
       </div>
     </Router>

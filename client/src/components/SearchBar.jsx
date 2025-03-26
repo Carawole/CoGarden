@@ -1,44 +1,63 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Form, FormControl, Button, Dropdown, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
-const SearchBar = ({ categories }) => {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("all");
+const SearchBar = ({ categories, loggedInUser, onSearch }) => {
+    const [query, setQuery] = useState('');
+    const [category, setCategory] = useState('all');
+    const [searchType, setSearchType] = useState('internal');  // 'internal' or 'perenual'
 
     const handleSearch = () => {
-        console.log(`Searching for: ${searchTerm} in category: ${selectedCategory}`);
-        // Call API or filter products
+        onSearch(query, category, searchType);
+        setQuery('');
     };
 
     return (
-        <div className="search-bar d-flex">
-            <select 
-                className="form-control mr-2" 
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-                <option value="all">All Categories</option>
-                {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                        {cat.name}
-                    </option>
-                ))}
-            </select>
-
-            <input
-                className="form-control"
-                type="search"
+        <Form className="d-flex align-items-center">
+            <FormControl
+                type="text"
                 placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="me-2"
             />
 
-            <button 
-                className="btn btn-primary ml-2"
-                onClick={handleSearch}
-            >
+            <Dropdown>
+                <Dropdown.Toggle variant="outline-secondary">
+                    {category === 'all' ? 'All Categories' : category}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => setCategory('all')}>All</Dropdown.Item>
+                    {categories.map((cat) => (
+                        <Dropdown.Item key={cat.id || cat.name} onClick={() => setCategory(cat.name)}>
+                            {cat.name}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+
+            { loggedInUser ? (
+            loggedInUser?.isAdmin && (
+                <ToggleButtonGroup
+                    type="radio"
+                    name="searchType"
+                    value={searchType}
+                    onChange={setSearchType}
+                    className="ms-3"
+                >
+                    <ToggleButton id="tbg-radio-1" value="internal" variant="outline-primary">
+                        Internal
+                    </ToggleButton>
+                    <ToggleButton id="tbg-radio-2" value="perenual" variant="outline-success">
+                        Perenual
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            )) : null
+            }
+
+            <Button variant="primary" onClick={handleSearch} className="ms-2">
                 Search
-            </button>
-        </div>
+            </Button>
+        </Form>
     );
 };
 
