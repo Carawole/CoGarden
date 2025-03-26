@@ -31,6 +31,14 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
 
     }
 
+    if (isLoading) {
+            return (
+                <Container className="text-center mt-5">
+                    <Spinner animation="border" />
+                </Container>
+            );
+    }
+
     if (!cart || cart.cartItems.length === 0) return <div>No items in the cart.</div>;
 
     return (
