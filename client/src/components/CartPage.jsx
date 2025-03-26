@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstrap';
-import { submitOrder, removeFromCart } from './CartContext';
+import { submitOrder, removeFromCart, updateCart } from './CartContext';
 
 export default function CartPage({ cart, loggedInUser, setCartVersion }) {
 
     const [isLoading, setLoading] = useState(false);
+
+    const [quantities, setQuantities] = useState({});
+
+    const handleQuantityChange = (cartItemId, value) => {
+        setQuantities((prev) => ({
+            ...prev,
+            [cartItemId]: value
+        }));
+    };
 
     useEffect(() => {
       function simulateNetworkRequest() {
@@ -19,6 +28,12 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
         });
       }
     }, [isLoading]);
+
+    const handleUpdate = (item) => {
+        updateCart(item, loggedInUser, quantities[item.cartItemId]);
+        setCartVersion((prev) => prev + 1);
+        setLoading(true);
+    }
   
     const handleSubmit = () => {
         submitOrder(cart, loggedInUser);
@@ -55,9 +70,30 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
                                 <Card.Text>
                                     Price: ${item.product.price.toFixed(2)}
                                 </Card.Text>
-                                <Card.Text>
-                                    Quantity: {item.quantity}
-                                </Card.Text>
+
+                                {/* Quantity input with arrows */}
+                                <div className="d-flex align-items-center">
+                                    <label htmlFor='quantity' className="me-2">Quantity:</label>
+                                    <input
+                                        id='quantity'
+                                        name='quantity'
+                                        type="number"
+                                        min="1"
+                                        value={quantities[item.cartItemId] ?? item.quantity}
+                                        onChange={(e) => handleQuantityChange(item.cartItemId, e.target.value)}
+                                        className="form-control me-2"
+                                        style={{ width: "80px" }}
+                                    />
+                                    <Button
+                                        variant="success"
+                                        onClick={() => handleUpdate(item)}
+                                        disabled={quantities[item.cartItemId] === item.quantity}
+                                    >
+                                        Update
+                                    </Button>
+                                </div>
+
+
                                 <Button variant='danger' onClick={() => {
                                     console.log(item);
                                     removeFromCart(item, loggedInUser);
