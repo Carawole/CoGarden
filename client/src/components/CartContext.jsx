@@ -1,4 +1,10 @@
 export async function retrieveCart( loggedInUser ) {
+
+    if (!loggedInUser || !loggedInUser.jwt) {
+        console.warn("No JWT found, skipping cart fetch.");
+        return;  // Skip API call if no jwt
+    }
+    
     try {
         const response = await fetch("http://localhost:8080/api/cart", {
             method: "GET",

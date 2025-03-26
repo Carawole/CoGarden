@@ -8,6 +8,7 @@ import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import CartPage from './components/CartPage';
 import { retrieveCart } from './components/CartContext';
+import { Spinner } from 'react-bootstrap';
 
 
 function App() {
@@ -57,6 +58,14 @@ function App() {
 	if (!hasFinishedCheckingLocalStorage) {
 		return null
 	}
+
+  if (loading) {
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
+  }
 
   return (
     <Router>
