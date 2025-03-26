@@ -19,7 +19,13 @@ export default function CartPage({ cart, loggedInUser }) {
       }
     }, [isLoading]);
   
-    const handleClick = () => setLoading(true);
+    const handleClick = () => {
+        
+        setLoading(true);
+    
+    }
+
+    if (!cart || cart.cartItems.length === 0) return <div>No items in the cart.</div>;
 
     return (
         <Container className="mt-5">

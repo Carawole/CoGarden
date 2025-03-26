@@ -5,7 +5,7 @@ import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstr
 import { addToCart } from './CartContext';  // Import the cart context
 import '../styles/ProductList.css';
 
-const ProductList = ({ categories, loggedInUser, cart, setCart }) => {
+const ProductList = ({ categories, loggedInUser, cart, setCart, cartVersion, setCartVersion }) => {
     const { title } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -64,6 +64,7 @@ const ProductList = ({ categories, loggedInUser, cart, setCart }) => {
 
     const handleAddToCart = () => {
         addToCart(loggedInUser, cart, selectedProduct);
+        setCartVersion((prev) => prev + 1);
         handleCloseModal();
     };
 

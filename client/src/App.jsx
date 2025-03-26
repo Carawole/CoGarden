@@ -16,7 +16,7 @@ function App() {
 	const [hasFinishedCheckingLocalStorage, setHasFinishedCheckingLocalStorage] = useState(false)
   const [cart, setCart] = useState([])
   const [loading, setLoading] = useState(false)
-  const [cartItems, setCartItems] = useState([])
+  const [cartVersion, setCartVersion] = useState(0);
   const [categories, setCategories] = useState([
     { id: 1, title: "FLOWERS", name: "Flowers", img: "/images/electronics.jpg" },
     { id: 2, title: "TREES", name: "Trees", img: "/images/clothing.jpg" },
@@ -43,17 +43,7 @@ function App() {
     };
 
     fetchCart();
-}, [loggedInUser]);
-  
-  useEffect(() => {
-    setCartItems(cart?.cartItems || []);
-  }, [cart]);
-  
-  // Remove this in production
-  useEffect(() => {
-    console.log(cart);
-    console.log(cartItems);
-  }, [cart]);
+}, [loggedInUser, cartVersion]);
 
 	if (!hasFinishedCheckingLocalStorage) {
 		return null
@@ -73,7 +63,7 @@ function App() {
       <div className='container'>
           <Routes>
               <Route path="/" element={ <LandingPage categories={categories}/> }/>
-              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} cart={cart} setCart={setCart}/>} />
+              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} cart={cart} setCart={setCart} cartVersion={cartVersion} setCartVersion={setCartVersion}/>} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage cart={cart} loggedInUser={loggedInUser}/>} />
               <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} />} />
