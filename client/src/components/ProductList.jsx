@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstrap';
-import { useCart } from './CartContext';  // Import the cart context
+import { addToCart } from './CartContext';  // Import the cart context
 import '../styles/ProductList.css';
 
-const ProductList = ({ categories, loggedInUser }) => {
+const ProductList = ({ categories, loggedInUser, cart, setCart }) => {
     const { title } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ const ProductList = ({ categories, loggedInUser }) => {
     const handleCloseModal = () => setShowModal(false);
 
     const handleAddToCart = () => {
-        // addToCart(selectedProduct);
+        addToCart(loggedInUser, cart, selectedProduct);
         handleCloseModal();
     };
 
@@ -129,10 +129,10 @@ const ProductList = ({ categories, loggedInUser }) => {
             {selectedProduct && (
                 <Modal show={showModal} onHide={handleCloseModal} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title>{selectedProduct.product_name}</Modal.Title>
+                        <Modal.Title>{selectedProduct.productName}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <img src={selectedProduct.image_url || '/placeholder.jpg'} alt={selectedProduct.product_name} className="img-fluid mb-3" />
+                        <img src={selectedProduct.image_url || '/placeholder.jpg'} alt={selectedProduct.productName} className="img-fluid mb-3" />
                         <p>{selectedProduct.description}</p>
                         <h4>${selectedProduct.price.toFixed(2)}</h4>
                     </Modal.Body>

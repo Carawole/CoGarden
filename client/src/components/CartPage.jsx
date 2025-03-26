@@ -1,6 +1,6 @@
 
 
-export default function CartPage() {
+export default function CartPage({ cart, loggedInUser }) {
     return (
         <div>
             <h1>Cart Page</h1>

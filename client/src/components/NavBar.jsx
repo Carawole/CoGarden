@@ -6,7 +6,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import "../styles/NavBar.css";
 import { Badge } from 'react-bootstrap';
 
-const NavBar = ({ loggedInUser, setLoggedInUser, cartItems, categories }) => {
+const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories }) => {
     return (
 		<nav className="navbar sticky-top navbar-light bg-light inline-flex">
 			<NavLink className="navbar-brand" to="/">
@@ -46,9 +46,9 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cartItems, categories }) => {
 						{/* Cart Icon with Item Count */}
 						<Link to="/cart" className="nav-link cart-icon">
 							<FaShoppingCart size={24} />
-							{cartItems.length >= 0 && (
+							{cart && cart.cartItems.length >= 0 && (
 								<Badge bg="danger" className="cart-badge">
-									{cartItems.length}
+									{cart.cartItems.length}
 								</Badge>
 							)}
 						</Link>

@@ -7,11 +7,14 @@ import LandingPage from './components/LandingPage';
 import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import CartPage from './components/CartPage';
+import { retrieveCart } from './components/CartContext';
 
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null)
 	const [hasFinishedCheckingLocalStorage, setHasFinishedCheckingLocalStorage] = useState(false)
+  const [cart, setCart] = useState([])
+  const [loading, setLoading] = useState(false)
   const [cartItems, setCartItems] = useState([])
   const [categories, setCategories] = useState([
     { id: 1, title: "FLOWERS", name: "Flowers", img: "/images/electronics.jpg" },
@@ -22,12 +25,34 @@ function App() {
     { id: 6, title: "OTHER", name: "Other", img: "/images/home-kitchen.jpg" }
   ])
 
-	useEffect(() => {
-		if (localStorage.getItem("loggedInUser") !== undefined) {
-			setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")))
-		}
-		setHasFinishedCheckingLocalStorage(true)
-	}, [])
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loggedInUser");
+    if (storedUser) {
+      setLoggedInUser(JSON.parse(storedUser));
+    }
+    setHasFinishedCheckingLocalStorage(true);
+  }, []);
+  
+  useEffect(() => {
+    const fetchCart = async () => {
+        setLoading(true);
+        const cartData = await retrieveCart(loggedInUser);
+        setCart(cartData);
+        setLoading(false);
+    };
+
+    fetchCart();
+}, [loggedInUser]);
+  
+  useEffect(() => {
+    setCartItems(cart?.cartItems || []);
+  }, [cart]);
+  
+  // Remove this in production
+  useEffect(() => {
+    console.log(cart);
+    console.log(cartItems);
+  }, [cart]);
 
 	if (!hasFinishedCheckingLocalStorage) {
 		return null
@@ -35,13 +60,13 @@ function App() {
 
   return (
     <Router>
-      <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} cartItems={cartItems} categories={categories} />
+      <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} cart={cart} categories={categories} />
       <div className='container'>
           <Routes>
               <Route path="/" element={ <LandingPage categories={categories}/> }/>
-              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} />} />
+              <Route path="/category/:title" element={<ProductList categories={categories} loggedInUser={loggedInUser} cart={cart} setCart={setCart}/>} />
               <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/cart" element={<CartPage />} />
+              <Route path="/cart" element={<CartPage cart={cart} loggedInUser={loggedInUser}/>} />
               <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} />} />
           </Routes>
       </div>
