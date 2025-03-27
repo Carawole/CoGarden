@@ -74,9 +74,9 @@ public class ProductJdbcClientRepository implements ProductRepository{
     @Override
     public List<Product> findByName(String productName, String category) {
         if (category == null || category.isBlank()) {
-            return client.sql(SELECT + "where product_name like :product_name limit 5;").param("product_name", "%" + productName + "%").query(new ProductMapper()).list();
+            return client.sql(SELECT + "where product_name like :product_name;").param("product_name", "%" + productName + "%").query(new ProductMapper()).list();
         } else {
-            return client.sql(SELECT + "where product_name like :product_name AND category = :category limit 5;").param("product_name", "%" + productName + "%").param("category", category).query(new ProductMapper()).list();
+            return client.sql(SELECT + "where product_name like :product_name AND category = :category;").param("product_name", "%" + productName + "%").param("category", category).query(new ProductMapper()).list();
         }
     }
 

@@ -42,7 +42,11 @@ public class CartService {
     }
 
     public Result<Cart> addToCart(CartItem cartItem) {
-        Result<Cart> result = new Result<>();
+        Result<Cart> result = validate(cartItem);
+
+        if (!result.isSuccess()) {
+            return result;
+        }
         cartItemRepository.add(cartItem);
         Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
         List<CartItem> cartItems = getCartItems(cartItem.getCartId());
@@ -53,7 +57,11 @@ public class CartService {
     }
 
     public Result<Cart> updateCartItemQuantity(CartItem cartItem) {
-        Result<Cart> result = new Result<>();
+        Result<Cart> result = validate(cartItem);
+
+        if (!result.isSuccess()) {
+            return result;
+        }
 
         if (cartItem.getQuantity() <= 0) {
             cartItemRepository.remove(cartItem.getCartItemId());
@@ -69,7 +77,11 @@ public class CartService {
     }
 
     public Result<Cart> removeFromCart(CartItem cartItem) {
-        Result<Cart> result = new Result<>();
+        Result<Cart> result = validate(cartItem);
+
+        if (!result.isSuccess()) {
+            return result;
+        }
         cartItemRepository.remove(cartItem.getCartItemId());
         Cart preCart = cartRepository.findByCartId(cartItem.getCartId());
         List<CartItem> cartItems = getCartItems(cartItem.getCartId());
@@ -93,5 +105,20 @@ public class CartService {
         List<CartItem> cartItems = new ArrayList<>();
         cartItems = cartItemRepository.findByCartId(cartId);
         return cartItems;
+    }
+
+    private Result<Cart> validate(CartItem cartItem) {
+        Result<Cart> result = new Result<>();
+        if (cartItem == null) {
+            result.addErrorMessage("CartItem cannot be null.", ResultType.INVALID);
+            return result;
+        }
+        if (cartItem.getCartId() <= 0) {
+            result.addErrorMessage("CartId is required.", ResultType.INVALID);
+        }
+        if (cartItem.getProduct() == null) {
+            result.addErrorMessage("Product is required.", ResultType.INVALID);
+        }
+        return result;
     }
 }

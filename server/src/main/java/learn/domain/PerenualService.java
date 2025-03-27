@@ -31,8 +31,6 @@ public class PerenualService {
         }
 
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
-
-//        return new ResponseEntity<>(restTemplate.getForEntity(url, Object.class), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> getPlantDetails(int id) {
@@ -54,7 +52,5 @@ public class PerenualService {
         }
 
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
-
-//        return new ResponseEntity<>(restTemplate.getForEntity(url, Object.class), HttpStatus.OK);
     }
 }
