@@ -19,9 +19,9 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories, setLoading })
     };
 
     return (
-		<nav className="navbar sticky-top navbar-light bg-light inline-flex">
+		<nav className="navbar sticky-top navbar-light inline-flex">
 			<NavLink className="navbar-brand" to="/">
-				<PiPottedPlant size={32} />
+				<PiPottedPlant size={75} />
 			</NavLink>
 
             {/* Pass the loggedInUser and handleSearch to SearchBar */}
@@ -55,7 +55,7 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories, setLoading })
 					<li className='nav-item'>
 						{/* Cart Icon with Item Count */}
 						<Link to="/cart" className="nav-link cart-icon">
-							<FaShoppingCart size={24} />
+							<FaShoppingCart size={40} />
 							{cart && (cart.cartItems?.length ?? 0) >= 0 && (
 								<Badge bg="danger" className="cart-badge">
 									{cart.cartItems?.length ?? 0}

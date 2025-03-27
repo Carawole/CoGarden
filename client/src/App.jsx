@@ -11,6 +11,7 @@ import AddProductForm from './components/AddProductForm';
 import SearchResults from './components/SearchResults';
 import { retrieveCart } from './components/CartContext';
 import { Spinner } from 'react-bootstrap';
+import Background from './components/Background';
 import trees from './assets/trees.jpg';
 import others from './assets/others.jpg';
 import shrubs from './assets/shrubs.jpg';
@@ -51,10 +52,9 @@ function App() {
       } catch (error) {
         console.error('Failed to load cart:', error);
       } finally {
-        // Ensure spinner shows for at least 500ms
         setTimeout(() => {
           setLoading(false);
-        }, 500);
+        }, 2000);
       }
     };
 
@@ -80,6 +80,7 @@ function App() {
 
   return (
     <Router>
+      {/* <Background /> */}
       <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} cart={cart} categories={categories} setLoading={setLoading} setCartVersion={setCartVersion} />
       <div className='container'>
         <Routes>
@@ -94,12 +95,13 @@ function App() {
               setCartVersion={setCartVersion} 
             />} 
           />
-          <Route path="/search-results" element={<SearchResults loggedInUser={loggedInUser} setLoading={setLoading} setCartVersion={setCartVersion} />} />
+          <Route path="/search-results" element={<SearchResults loggedInUser={loggedInUser} cart={cart} setLoading={setLoading} setCartVersion={setCartVersion} />} />
           <Route 
             path="/cart" 
             element={<CartPage 
               cart={cart} 
-              loggedInUser={loggedInUser} 
+              loggedInUser={loggedInUser}
+              loading={loading} 
               setLoading={setLoading}
               setCartVersion={setCartVersion} 
             />} 
@@ -108,9 +110,6 @@ function App() {
             path="/login" 
             element={<LoginForm 
               setLoggedInUser={setLoggedInUser} 
-              cart={cart} 
-              setLoading={setLoading}
-              setCartVersion={setCartVersion} 
             />} 
           />
           <Route 

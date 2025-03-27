@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstrap';
 import { submitOrder, removeFromCart, updateCart } from './CartContext';
 
-export default function CartPage({ cart, loggedInUser, setCartVersion }) {
-
-    const [isLoading, setLoading] = useState(false);
+export default function CartPage({ cart, loggedInUser, loading, setLoading, setCartVersion }) {
 
     const [quantities, setQuantities] = useState({});
 
@@ -15,44 +13,20 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
         }));
     };
 
-    useEffect(() => {
-      function simulateNetworkRequest() {
-        return new Promise(resolve => {
-          setTimeout(resolve, 2000);
-        });
-      }
-  
-      if (isLoading) {
-        simulateNetworkRequest().then(() => {
-          setLoading(false);
-        });
-      }
-    }, [isLoading]);
+useEffect(() => {
+    setCartVersion((prev) => prev + 1);
+}, []);
 
     const handleUpdate = (item) => {
+        setLoading(true);
         updateCart(item, loggedInUser, quantities[item.cartItemId]);
         setCartVersion((prev) => prev + 1);
-        setLoading(true);
     }
   
     const handleSubmit = () => {
+        setLoading(true);
         submitOrder(cart, loggedInUser);
         setCartVersion((prev) => prev + 1);
-        setLoading(true);
-    }
-
-    // const handleRemoveClick = (item) => {
-    //     removeFromCart(item, loggedInUser);
-    //     setCartVersion((prev) => prev + 1);
-    //     setLoading(true);
-    // }
-
-    if (isLoading) {
-            return (
-                <Container className="text-center mt-5">
-                    <Spinner animation="border" />
-                </Container>
-            );
     }
 
     if (!cart || cart.cartItems.length === 0) return <div>No items in the cart.</div>;
@@ -95,10 +69,9 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
 
 
                                 <Button variant='danger' onClick={() => {
-                                    console.log(item);
+                                    setLoading(true);
                                     removeFromCart(item, loggedInUser);
                                     setCartVersion((prev) => prev + 1);
-                                    setLoading(true);
                                     }}>
                                     Remove
                                 </Button>
@@ -110,10 +83,10 @@ export default function CartPage({ cart, loggedInUser, setCartVersion }) {
             <h3>Total: ${cart.total.toFixed(2)}</h3>
             <Button
                 variant="primary"
-                disabled={isLoading}
-                onClick={!isLoading ? handleSubmit : null}
+                disabled={loading}
+                onClick={!loading ? handleSubmit : null}
                 >
-                {isLoading ? 'Loading…' : 'Submit Order'}
+                {loading ? 'Loading…' : 'Submit Order'}
             </Button>
         </Container>
     )

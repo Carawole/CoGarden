@@ -2,13 +2,28 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstrap';
-import { addToCart } from './CartContext';  // Import the cart context
+import { addToCart } from './CartContext';
 import '../styles/ProductList.css';
+import cactus from '../assets/cactus.png';
+import tomato from '../assets/tomato.png';
+import flower from '../assets/flower.png';
+import tree from '../assets/tree.png';
+import shrub from '../assets/shrub.png';
+import other from '../assets/other.png';
 
-const ProductList = ({ categories, loggedInUser, cart, setCartVersion }) => {
+
+const categoryIcons = {
+    SUCCULENTS: cactus,
+    EDIBLES: tomato,
+    FLOWERS: flower,
+    TREES: tree,
+    SHRUBS: shrub,
+    OTHER: other
+};
+
+const ProductList = ({ categories, loggedInUser, cart,setLoading, setCartVersion }) => {
     const { title } = useParams();
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -28,31 +43,7 @@ const ProductList = ({ categories, loggedInUser, cart, setCartVersion }) => {
 
     useEffect(() => {
         fetchProducts();
-    }, [title])
-
-    useEffect(() => {
-        console.log('Updated Products:', products);
-    }, [products]);
-
-    // useEffect(() => {
-    //     const fetchProducts = async () => {
-    //         try {
-    //             const response = await fetch(`http://localhost:8080/api/product?category=${title}`);
-    //             if (!response.ok) throw new Error('Failed to fetch products');
-    //             const data = await response.json();
-    //             setProducts(data.Body);
-    //             console.log(title);
-    //             console.log(data);
-    //             console.log(products);
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.error('Error:', error);
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchProducts();
-    // }, [title]);
+    }, [title]);
 
     const handleShowModal = (product) => {
         setSelectedProduct(product);
@@ -62,30 +53,26 @@ const ProductList = ({ categories, loggedInUser, cart, setCartVersion }) => {
     const handleCloseModal = () => setShowModal(false);
 
     const handleAddToCart = () => {
+        setLoading(true);
         addToCart(loggedInUser, cart, selectedProduct);
         setCartVersion((prev) => prev + 1);
         handleCloseModal();
     };
 
-    if (loading) {
-        return (
-            <Container className="text-center mt-5">
-                <Spinner animation="border" />
-            </Container>
-        );
-    }
-
     return (
         <Container className="my-5">
             <h2 className="text-center mb-4">Products in {title}</h2>
             <Row>
-                {loading ? (
-                    <Spinner animation="border" />
-                ) : products && products.length > 0 ? (
+                {products && products.length > 0 ? (
                     products.map((product) => (
                         <Col key={product.productId} sm={12} md={6} lg={4} className="mb-4">
                             <Card className="product-card" onClick={() => handleShowModal(product)}>
-                                <Card.Img variant="top" src={product.image_url || '/placeholder.jpg'} alt={product.productName} />
+                                <Card.Img
+                                    variant="top"
+                                    src={categoryIcons[product.category] || '/placeholder.jpg'}
+                                    alt={product.productName}
+                                    className='w-50 mx-auto mt-3'
+                                />
                                 <Card.Body>
                                     <Card.Title>{product.productName}</Card.Title>
                                     <Card.Text>
@@ -132,8 +119,12 @@ const ProductList = ({ categories, loggedInUser, cart, setCartVersion }) => {
                         <Modal.Title>{selectedProduct.productName}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <img src={selectedProduct.image_url || '/placeholder.jpg'} alt={selectedProduct.productName} className="img-fluid mb-3" />
+                        {/* <img src={categoryIcons[selectedProduct.category] || '/placeholder.jpg'} alt={selectedProduct.productName} className="img-fluid mb-3" /> */}
                         <p>{selectedProduct.description}</p>
+                        <p>Cycle: {selectedProduct.cycle}</p>
+                        <p>Watering: {selectedProduct.watering}</p>
+                        <p>Sunlight Requirements: {selectedProduct.sunlight}</p>
+                        <p>Hardiness Zone: {selectedProduct.hardinessZone}</p>
                         <h4>${selectedProduct.price.toFixed(2)}</h4>
                     </Modal.Body>
                     <Modal.Footer>

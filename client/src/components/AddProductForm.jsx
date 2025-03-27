@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 
-export function AddProductForm({ loggedInUser, categories }) {
+export function AddProductForm({ loggedInUser, categories, setLoading, setCartVersion }) {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -19,14 +19,11 @@ export function AddProductForm({ loggedInUser, categories }) {
         price: ''             
     });
 
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProductData = async () => {
             if (!productId) {
-                setError("No product ID provided.");
-                setLoading(false);
                 return;
             }
 
@@ -55,15 +52,11 @@ export function AddProductForm({ loggedInUser, categories }) {
                     hardinessZone: product.hardiness.min || '',
                     price:product.price || ''
                 });
-
-                setLoading(false);
             } catch (err) {
                 console.error("Error fetching product:", err);
                 setError("Failed to load product data.");
-                setLoading(false);
             }
         };
-
         fetchProductData();
     }, [productId]);
 
@@ -90,6 +83,8 @@ export function AddProductForm({ loggedInUser, categories }) {
 
             if (response.status === 201) {
                 console.log('Product added successfully!');
+                setLoading(true);
+                setCartVersion((prev) => prev + 1);  // Update cart version to trigger refetch
                 navigate('/');  // Redirect after success
             } else {
                 console.error('Failed to add product');
@@ -98,10 +93,6 @@ export function AddProductForm({ loggedInUser, categories }) {
             console.error('Error:', error);
         }
     };
-
-    if (loading) {
-        return <Spinner animation="border" />;
-    }
 
     if (error) {
         return <Alert variant="danger">{error}</Alert>;

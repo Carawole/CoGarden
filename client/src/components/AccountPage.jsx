@@ -1,6 +1,6 @@
 import OrderList from "./OrderList";
 
-const AccountPage = ({ loggedInUser }) => {
+const AccountPage = ({ loggedInUser ,setLoading, setCartVersion }) => {
 
     return (
         <div className="mt-5">
@@ -8,6 +8,8 @@ const AccountPage = ({ loggedInUser }) => {
 
             <OrderList 
                 loggedInUser={loggedInUser}
+                setLoading={setLoading}
+                setCartVersion={setCartVersion}
             />
         </div>
     );

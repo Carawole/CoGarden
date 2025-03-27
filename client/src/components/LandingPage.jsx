@@ -22,7 +22,7 @@ const LandingPage = ({ categories }) => {
                         />
                         <Carousel.Caption>
                             <h3>{category.title}</h3>
-                            <p>Explore the latest in {category.name}!</p>
+                            <p>Browse our selection of {category.name}!</p>
                             <Button 
                                 variant="primary" 
                                 onClick={() => handleCategoryClick(category.title)}

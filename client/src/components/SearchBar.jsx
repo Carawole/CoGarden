@@ -47,14 +47,14 @@ const SearchBar = ({ categories, loggedInUser, onSearch }) => {
                     <ToggleButton id="tbg-radio-1" value="internal" variant="outline-primary">
                         Internal
                     </ToggleButton>
-                    <ToggleButton id="tbg-radio-2" value="perenual" variant="outline-success">
+                    <ToggleButton id="tbg-radio-2" value="perenual" variant="outline-danger">
                         Perenual
                     </ToggleButton>
                 </ToggleButtonGroup>
             )) : null
             }
 
-            <Button variant="primary" onClick={handleSearch} className="ms-2">
+            <Button variant={searchType == 'internal' ? "primary" : "danger"} onClick={handleSearch} className="ms-2">
                 Search
             </Button>
         </Form>

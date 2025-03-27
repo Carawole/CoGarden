@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Table, Badge, Spinner, Alert, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-const OrderList = ({ loggedInUser }) => {
+const OrderList = ({ loggedInUser, setLoading, setCartVersion }) => {
     const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [statusOptions] = useState(['PENDING', 'PROCESSING', 'CANCELLED', 'COMPLETED']);
 
@@ -29,7 +28,7 @@ const OrderList = ({ loggedInUser }) => {
             } catch (error) {
                 setError(error.message);
             } finally {
-                setLoading(false);
+                setCartVersion((prev) => prev + 1);
             }
         }
 
@@ -73,10 +72,6 @@ const OrderList = ({ loggedInUser }) => {
             default: return 'secondary';
         }
     };
-
-    if (loading) {
-        return <Spinner animation="border" />;
-    }
 
     if (error) {
         return <Alert variant="danger">{error}</Alert>;

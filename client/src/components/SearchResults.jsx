@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Spinner, Alert, Button, Modal } from 'react-bootstrap';
 import { addToCart } from './CartContext';  // Import the cart context
 
-const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
+const SearchResults = ({ loggedInUser, cart, setLoading, setCartVersion }) => {
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -14,10 +14,10 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
     const source = params.get('source');
 
     const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -54,13 +54,15 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
                 setResults(data.data || data.payload);  // Adjust based on API structure
             } catch (error) {
                 setError(error.message);
-            } finally {
-                setLoading(false);
+            }  finally {
+                setTimeout(() => {
+                    setIsLoading(false);
+                  }, 2000);
             }
         };
-
         fetchResults();
     }, [query, category, source]);
+
 
     const handleShowModal = (item) => {
         setSelectedProduct(item);
@@ -70,17 +72,27 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
     const handleCloseModal = () => setShowModal(false);
 
     const handleAddToCart = () => {
+        setLoading(true);
         addToCart(loggedInUser, cart, selectedProduct);
         setCartVersion((prev) => prev + 1);
         handleCloseModal();
     };
 
-    if (loading) return <Spinner animation="border" />;
+    if (isLoading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          );
+    }
+
     if (error) return <Alert variant="danger">Error: {error}</Alert>;
 
     return (
         <Container className="mt-5">
-            <h3>Results for "{query}" {loggedInUser && loggedInUser.isAdmin ? ({source}) : null}</h3>
+            <h3>Results for "{query}" </h3>
             <Row>
                 {results.length > 0 ? results.map((item) => (
                     <Col key={item.id || item.productId} md={4} className="mb-4">
@@ -89,7 +101,7 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
                             <Card.Body>
                                 <Card.Title>{item.common_name || item.productName}</Card.Title>
                                 <Card.Text>
-                                    {item.scientific_name ? item.scientific_name.join(', ') : `Price: $${item.price.toFixed(2)}`}
+                                    {item.scientific_name ? `Scientific Name: ${item.scientific_name.join(', ')}` : `Price: $${item.price.toFixed(2)}`}
                                 </Card.Text>
                                 <Card.Text>
                                     {item.description ? item.description : ''}
@@ -126,12 +138,12 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
                         <Modal.Title>{selectedProduct.productName || selectedProduct.common_name || 'No Name Available'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <img src={selectedProduct.image_url || selectedProduct.default_image?.original || '/placeholder.jpg'} alt={selectedProduct.productName || selectedProduct.common_name || 'Product'} className="img-fluid mb-3" />
+                        {/* <img src={selectedProduct.image_url || selectedProduct.default_image?.original || '/placeholder.jpg'} alt={selectedProduct.productName || selectedProduct.common_name || 'Product'} className="img-fluid mb-3" /> */}
                         <p>{selectedProduct.description || ''}</p>
                         {selectedProduct.price ? (
                             <h4>${selectedProduct.price.toFixed(2)}</h4>
                         ) : selectedProduct.scientific_name ? (
-                            <h4>{selectedProduct.scientific_name.join(', ')}</h4>
+                            <h4>Scientific Name: {selectedProduct.scientific_name.join(', ')}</h4>
                         ) : null}
                     </Modal.Body>
                     <Modal.Footer>
