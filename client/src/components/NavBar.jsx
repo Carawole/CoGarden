@@ -2,10 +2,11 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../assets/react.svg';
 import SearchBar from './SearchBar';
 import { FaShoppingCart } from 'react-icons/fa';
+import { PiPottedPlant } from "react-icons/pi";
 import "../styles/NavBar.css";
 import { Badge } from 'react-bootstrap';
 
-const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories }) => {
+const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories, setLoading }) => {
     const navigate = useNavigate();
 
     const handleSearch = (query, category, searchType) => {
@@ -20,7 +21,7 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories }) => {
     return (
 		<nav className="navbar sticky-top navbar-light bg-light inline-flex">
 			<NavLink className="navbar-brand" to="/">
-				<img src={logo} alt="CoGarden" width="100" />
+				<PiPottedPlant size={32} />
 			</NavLink>
 
             {/* Pass the loggedInUser and handleSearch to SearchBar */}
@@ -43,6 +44,7 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories }) => {
 						<button className='nav-link' onClick={() => {
 							setLoggedInUser(null)
 							localStorage.clear("loggedInUser")	
+							navigate("/")
 						}}>Log Out</button>
 					</li>
 					<li className='nav-item'>
@@ -54,9 +56,9 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories }) => {
 						{/* Cart Icon with Item Count */}
 						<Link to="/cart" className="nav-link cart-icon">
 							<FaShoppingCart size={24} />
-							{cart && cart.cartItems.length >= 0 && (
+							{cart && (cart.cartItems?.length ?? 0) >= 0 && (
 								<Badge bg="danger" className="cart-badge">
-									{cart.cartItems.length}
+									{cart.cartItems?.length ?? 0}
 								</Badge>
 							)}
 						</Link>

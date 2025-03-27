@@ -27,18 +27,26 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
                     if (category === 'all') {
                         url = `http://localhost:8080/api/product?productName=${query}&category=`;
                     } else {
-                        url = `http://localhost:8080/api/perenual/search?query=${query}&category=${category}`;
+                        url = `http://localhost:8080/api/product?productName=${query}&category=${category}`;
                     }
                 } else {
                     url = `http://localhost:8080/api/perenual/search?query=${query}`;
                 }
 
+                let providedHeaders;
+                if (loggedInUser) {
+                    providedHeaders = {
+                        'Content-Type': 'application/json',
+                        'Authorization': loggedInUser.jwt
+                    };
+                } else {
+                    providedHeaders = {
+                        'Content-Type': 'application/json'
+                    };
+                }
                 const response = await fetch(url, {
                     method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': loggedInUser.jwt
-                    },
+                    headers: providedHeaders,
                 });
                 if (!response.ok) throw new Error('Failed to fetch results');
 
@@ -72,7 +80,7 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
 
     return (
         <Container className="mt-5">
-            <h3>Results for "{query}" {loggedInUser.isAdmin ? ({source}) : null}</h3>
+            <h3>Results for "{query}" {loggedInUser && loggedInUser.isAdmin ? ({source}) : null}</h3>
             <Row>
                 {results.length > 0 ? results.map((item) => (
                     <Col key={item.id || item.productId} md={4} className="mb-4">
@@ -81,7 +89,7 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
                             <Card.Body>
                                 <Card.Title>{item.common_name || item.productName}</Card.Title>
                                 <Card.Text>
-                                    {item.scientific_name ? item.scientific_name.join(', ') : `Price: $${item.price}`}
+                                    {item.scientific_name ? item.scientific_name.join(', ') : `Price: $${item.price.toFixed(2)}`}
                                 </Card.Text>
                                 <Card.Text>
                                     {item.description ? item.description : ''}

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { jwtDecode } from "jwt-decode"
+import { Button } from "react-bootstrap"
 
 const LoginForm = ({ setLoggedInUser }) => {
 
@@ -51,7 +52,7 @@ const LoginForm = ({ setLoggedInUser }) => {
                 {errors.map(error => <li key={error}>{error}</li>)}
             </ul>}
 
-            <h2>Log into your account</h2>
+            <h2>Log In/Create An Account</h2>
 
             <div className="col-3"></div>
             <form onSubmit={handleSubmit} className="col-6">
@@ -66,7 +67,7 @@ const LoginForm = ({ setLoggedInUser }) => {
                 </div>
 
                 <div className="form-group">
-                    <button className="btn btn-info" type="submit">Log in!</button>
+                    <Button type="submit" variant="primary">Log In/Register</Button>
                 </div>
             </form>
         </div>

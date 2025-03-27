@@ -1,5 +1,5 @@
 .navbar {
-    padding: 15px 20px;
+    padding: 10px 10px;
 }
 
 .cart-icon {
@@ -11,7 +11,7 @@
 }
 
 .cart-badge {
-    position: absolute;
+    position: relative;
     top: -5px;
     right: -10px;
     font-size: 12px;
