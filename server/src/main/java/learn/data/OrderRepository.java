@@ -12,5 +12,5 @@ public interface OrderRepository {
 
     public List<Order> findByUserId(int UserId);
 
-    public boolean update(Order order);
+    public boolean updateStatus(Order order);
 }

@@ -57,7 +57,7 @@ public class OrderJdbcClientRepository implements OrderRepository{
     }
 
     @Override
-    public boolean update(Order order) {
+    public boolean updateStatus(Order order) {
         final String sql = """
                 UPDATE `order`
                 SET order_status = :orderStatus
