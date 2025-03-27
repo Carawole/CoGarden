@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage';
 import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import CartPage from './components/CartPage';
+import AccountPage from './components/AccountPage';
 import AddProductForm from './components/AddProductForm';
 import SearchResults from './components/SearchResults';
 import { retrieveCart } from './components/CartContext';
@@ -71,6 +72,8 @@ function App() {
               <Route path="/cart" element={<CartPage cart={cart} loggedInUser={loggedInUser} setCartVersion={setCartVersion} />} />
               <Route path="/login" element={<LoginForm setLoggedInUser={setLoggedInUser} cart={cart} setCartVersion={setCartVersion}/>} />
               <Route path="/add-product" element={<AddProductForm loggedInUser={loggedInUser} categories={categories}/>} />
+              <Route path="/account" element={<AccountPage loggedInUser={loggedInUser}/>} />
+              <Route path='*' element={<Navigate to='/' />} />
           </Routes>
       </div>
     </Router>

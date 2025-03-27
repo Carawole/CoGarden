@@ -62,7 +62,7 @@ const LoginForm = ({ setLoggedInUser }) => {
 
                 <div className="form-group">
                     <label htmlFor="password-input">Password: </label>
-                    <input name="passwordHash" className="form-control" id="password-input" type="text" value={user.passwordHash} onChange={handleChange} />
+                    <input name="passwordHash" className="form-control" id="password-input" type="password" value={user.passwordHash} onChange={handleChange} />
                 </div>
 
                 <div className="form-group">

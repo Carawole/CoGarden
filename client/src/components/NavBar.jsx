@@ -47,7 +47,7 @@ const NavBar = ({ loggedInUser, setLoggedInUser, cart, categories }) => {
 					</li>
 					<li className='nav-item'>
 						<NavLink className={(arg) => arg.isActive ? 'nav-link custom-active' : 'nav-link'} 
-                            to="/account">View Account
+                            to="/account">{loggedInUser.isAdmin ? 'View All Orders' : 'View My Orders'}
                         </NavLink>
 					</li>
 					<li className='nav-item'>

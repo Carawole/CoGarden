@@ -72,7 +72,7 @@ const SearchResults = ({ loggedInUser, cart, setCartVersion }) => {
 
     return (
         <Container className="mt-5">
-            <h3>Results for "{query}" ({source})</h3>
+            <h3>Results for "{query}" {loggedInUser.isAdmin ? ({source}) : null}</h3>
             <Row>
                 {results.length > 0 ? results.map((item) => (
                     <Col key={item.id || item.productId} md={4} className="mb-4">
