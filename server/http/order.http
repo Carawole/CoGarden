@@ -1,0 +1,53 @@
+@url=http://localhost:8080/api/order
+
+###
+
+@adminjwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InR0QGtlbGxvZ2cuY29tIiwidXNlcklkIjoxLCJpc0FkbWluIjp0cnVlfQ.PYTpCF2-7VmHmQlHlykbIeRJ9jXC44_Ev6PBqtQKC4s
+
+###
+@normaljwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1qQG5ldmVybGFuZC5jb20iLCJ1c2VySWQiOjIsImlzQWRtaW4iOmZhbHNlfQ.I7gVxco2CuLi-8IW7XG9NeMs44OHp5jgp0z9Zyli4sg
+
+###
+
+#Get all orders as admin
+
+GET {{url}}
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+###
+
+#Get order by id as admin
+
+GET {{url}}/4
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+###
+
+# Get orders by user - admin user
+
+GET {{url}}/myOrders
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+###
+
+# Get orders by user - normal user
+
+GET {{url}}/myOrders
+Content-Type: application/json
+Authorization: {{normaljwt}}
+
+###
+
+# Update order status - admin user
+
+PUT {{url}}
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+{
+    "orderId": 4,
+    "status": "PROCESSING"
+}

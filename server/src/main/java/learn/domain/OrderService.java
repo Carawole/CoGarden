@@ -49,22 +49,34 @@ public class OrderService {
         return result;
     }
 
-    public boolean updateStatus(Order order) {
+    public Result<Boolean> updateStatus(Order order) {
+        Result<Boolean> result = new Result<>();
 
         if (order.getOrderId() <= 0) {
-            return false;
+            result.addErrorMessage("Order ID must be greater than 0.", ResultType.INVALID);
         }
 
         if (order.getStatus() == null) {
-            return false;
+            result.addErrorMessage("Status is required.", ResultType.INVALID);
+        }
+
+        if (!result.isSuccess()) {
+            return result;
         }
 
         Order existingOrder = orderRepository.findByOrderId(order.getOrderId());
 
         if (existingOrder.getStatus() == order.getStatus()) {
-            return false;
+            result.addErrorMessage("Status is the same.", ResultType.INVALID);
+            return result;
         }
-        
-        return orderRepository.updateStatus(order);
+
+        if (orderRepository.updateStatus(order)) {
+            result.setPayload(true);
+        } else {
+            result.addErrorMessage("Failed to update status.", ResultType.INVALID);
+        }
+
+        return result;
     }
 }
