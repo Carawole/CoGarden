@@ -1,0 +1,55 @@
+@url =http://localhost:8080/api/product
+
+###
+@adminjwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InR0QGtlbGxvZ2cuY29tIiwidXNlcklkIjoxLCJpc0FkbWluIjp0cnVlfQ.fqEx5MFPtiah6Go5k0rv813b4QcJG8TkxUCTDI-BOUY
+
+###
+@normaljwt=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1qQG5ldmVybGFuZC5jb20iLCJ1c2VySWQiOjIsImlzQWRtaW4iOmZhbHNlfQ.Zb_F0KmYVnlE_bmxDKVBSoyDFxqFcPqacpeZvc_Dbng
+
+###
+
+
+# Find All Products
+GET {{url}}
+
+###
+
+#Find By Category
+GET {{url}}?category=Flowers
+
+###
+
+#Find By Name & Category
+GET {{url}}?category=&productName=Aloe Vera
+
+###
+
+#Create a product
+POST {{url}}
+Content-Type: application/json
+Authorization: {{adminjwt}}
+{
+    "productName": "Rose",
+    "category": "FLOWERS",
+    "price": 10.00
+}
+
+###
+
+#Update a product
+
+PUT {{url}}/11
+Content-Type: application/json
+Authorization: {{adminjwt}}
+
+{
+  "productId": 11,
+  "productName": "Rose",
+  "category": "FLOWERS",
+  "description": "A beautiful rose",
+  "cycle": null,
+  "watering": null,
+  "sunlight": null,
+  "hardinessZone": 0,
+  "price": 10.00
+}

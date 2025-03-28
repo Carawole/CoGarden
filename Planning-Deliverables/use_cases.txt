@@ -1,0 +1,17 @@
+While logged out:
+    - Users can sign up for an account and log in
+    - Users can view/filter through the sections of items
+    - Users can search for an individual item
+While USER is logged in:
+    - User can add an item to their cart
+    - User can view the items currently in their cart
+    - User can clear their cart
+    - If not available for purchase, User can request an item be added to the store
+    - User can view their past orders
+While ADMIN is logged in:
+    - Admin can view requested items
+    - Admin can add/remove items from the store
+    - Admin can change order status
+Stretch Goals:
+    - Admin should be able to add/remove categories
+    - Should be able to create additional admins while logged in as admin    
