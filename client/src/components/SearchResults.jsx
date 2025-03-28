@@ -104,6 +104,9 @@ const SearchResults = ({ loggedInUser, cart, setLoading, setCartVersion }) => {
                                     {item.scientific_name ? `Scientific Name: ${item.scientific_name.join(', ')}` : `Price: $${item.price.toFixed(2)}`}
                                 </Card.Text>
                                 <Card.Text>
+                                    {item.category ? `Category: ${item.category}` : ''}
+                                </Card.Text>
+                                <Card.Text>
                                     {item.description ? item.description : ''}
                                 </Card.Text>
                                 <>

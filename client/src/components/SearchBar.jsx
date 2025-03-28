@@ -22,7 +22,7 @@ const SearchBar = ({ categories, loggedInUser, onSearch }) => {
             />
 
             <Dropdown>
-                <Dropdown.Toggle variant="outline-secondary">
+                <Dropdown.Toggle variant="outline-light">
                     {category === 'all' ? 'All Categories' : category}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>

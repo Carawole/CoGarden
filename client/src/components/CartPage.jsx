@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Modal } from 'react-bootstrap';
 import { submitOrder, removeFromCart, updateCart } from './CartContext';
+import "../styles/CartPage.css";
 
 export default function CartPage({ cart, loggedInUser, loading, setLoading, setCartVersion }) {
 
@@ -29,7 +30,11 @@ useEffect(() => {
         setCartVersion((prev) => prev + 1);
     }
 
-    if (!cart || cart.cartItems.length === 0) return <div>No items in the cart.</div>;
+    if (!cart || cart.cartItems.length === 0) return (
+        <Container className="mt-5">
+            <h2>There are no items in your cart.</h2>
+        </Container>
+    );
 
     return (
         <Container className="mt-5">
